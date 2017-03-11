@@ -199,7 +199,7 @@ int MonthMenu () {
       RTC.Get( td );
       rotary.position( td.tm_mon +1 );                // tm_mon 0...11
       
-      iMenu[MENU_MONTH] = MENUSTATE_WAIT_PRESS;          // we have set up the rotery switch 
+      iMenu[MENU_MONTH] = MENUSTATE_WAIT_PRESS;       // we have set up the rotery switch 
       break;
     case MENUSTATE_WAIT_PRESS:                        // we have set up the  
       lcd.setCursor( 0, 1 ); 
@@ -216,7 +216,7 @@ int MonthMenu () {
         iMonth = rotary.position();
         lcd.setCursor( 0, 1 ); 
         lcd.print( "                     " );
-        td.tm_mon = iMonth - 1 ;                     // tm_mon 0...11
+        td.tm_mon = iMonth - 1 ;                      // tm_mon 0...11
         RTC.Set( td );
       }
       break;
@@ -246,9 +246,9 @@ int DayMenu () {
       rotary.minimum(1);
       rotary.maximum(31);
       RTC.Get( td );
-      rotary.position( td.tm_mday );                // tm_mon 1...31
+      rotary.position( td.tm_mday );                  // tm_mon 1...31
       
-      iMenu[MENU_DAY] = MENUSTATE_WAIT_PRESS;          // we have set up the rotery switch 
+      iMenu[MENU_DAY] = MENUSTATE_WAIT_PRESS;         // we have set up the rotery switch 
       break;
     case MENUSTATE_WAIT_PRESS:                        // we have set up the  
       lcd.setCursor( 0, 1 ); 
@@ -265,7 +265,7 @@ int DayMenu () {
         iDay = rotary.position();
         lcd.setCursor( 0, 1 ); 
         lcd.print( "                     " );
-        td.tm_mday = iDay ;                     // tm_mon 1...31
+        td.tm_mday = iDay ;                           // tm_mon 1...31
         RTC.Set( td );
       }
       break;
@@ -296,7 +296,6 @@ int HourMenu () {
       RTC.Get( td );
       rotary.position( td.tm_hour + 1 );
       iMenu[MENU_HOUR] = MENUSTATE_WAIT_PRESS;        // we have set up the rotery switch 
-      delay(10);
       break;
     case MENUSTATE_WAIT_PRESS:                        // we have set up the  
       lcd.setCursor( 0, 1 ); 
@@ -313,7 +312,7 @@ int HourMenu () {
         iHour = rotary.position();
         lcd.setCursor( 0, 1 ); 
         lcd.print( "                     " );
-        td.tm_hour = iHour - 1 ;                     // tm_hour 0...23
+        td.tm_hour = iHour - 1 ;                      // tm_hour 0...23
         RTC.Set( td );
       }
       break;
@@ -343,8 +342,7 @@ int MinuteMenu () {
       rotary.maximum(59);
       RTC.Get( td );
       rotary.position( td.tm_min  );
-      iMenu[MENU_MINUTE] = MENUSTATE_WAIT_PRESS;        // we have set up the rotery switch 
-      delay(10);
+      iMenu[MENU_MINUTE] = MENUSTATE_WAIT_PRESS;      // we have set up the rotery switch 
       break;
     case MENUSTATE_WAIT_PRESS:                        // we have set up the  
       lcd.setCursor( 0, 1 ); 
@@ -361,7 +359,7 @@ int MinuteMenu () {
         iMinute = rotary.position();
         lcd.setCursor( 0, 1 ); 
         lcd.print( "                     " );
-        td.tm_min = iMinute ;                     // tm_hour 0...59
+        td.tm_min = iMinute ;                         // tm_hour 0...59
         RTC.Set( td );
       }
       break;
@@ -385,36 +383,35 @@ int MinuteMenu () {
 int SecondMenu () {
   int iReturn = -1;
   int iSecond ;
-  switch( iMenu[MENU_MINUTE] ){
+  switch( iMenu[MENU_SECOND] ){
     case MENUSTATE_SETUP:                             // rotery button released menu active
       rotary.minimum(0);
       rotary.maximum(59);
       RTC.Get( td );
       rotary.position( td.tm_sec  );
-      iMenu[MENU_MINUTE] = MENUSTATE_WAIT_PRESS;        // we have set up the rotery switch 
-      delay(10);
+      iMenu[MENU_SECOND] = MENUSTATE_WAIT_PRESS;      // we have set up the rotery switch 
       break;
     case MENUSTATE_WAIT_PRESS:                        // we have set up the  
       lcd.setCursor( 0, 1 ); 
       sprintf( szMenuTemp, "Minute: %02d", rotary.position());
       lcd.print( szMenuTemp );
       if( rotary.pressed()) {
-        iMenu[MENU_MINUTE] = MENUSTATE_WAIT_RELEASE;
+        iMenu[MENU_SECOND] = MENUSTATE_WAIT_RELEASE;
       }
       break;
     case MENUSTATE_WAIT_RELEASE:
       if( !rotary.pressed()) { 
-        iMenu[MENU_MINUTE] = MENUSTATE_DONE;
+        iMenu[MENU_SECOND] = MENUSTATE_DONE;
         RTC.Get( td );
         iSecond = rotary.position();
         lcd.setCursor( 0, 1 ); 
         lcd.print( "                     " );
-        td.tm_sec = iSecond ;                     // tm_sec 0...59
+        td.tm_sec = iSecond ;                         // tm_sec 0...59
         RTC.Set( td );
       }
       break;
     case MENUSTATE_DONE:
-        iMenu[MENU_MINUTE] = MENUSTATE_SETUP;
+        iMenu[MENU_SECOND] = MENUSTATE_SETUP;
         iActiveMenu = -1;
         iReturn = iSecond;
       break;
